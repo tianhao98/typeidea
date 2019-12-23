@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "./newbase.html" %}
+{% load comment_block %}
+{% block title %} {{ post_info.title }} {% endblock %}
+{% block extra_head %}
+{% load static %}
+<link rel="stylesheet"
+      href="{% static 'css/default.min.css' %}">
+<script src="{% static 'js/highlight.min.js' %}"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+{% endblock %}
+{% block main %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post_info.owner }}</title>
+</head>
+<body>
+<ul>
+    {% if post_info %}
+    <div>
+        <span>分类: {{ post_info.category.name }}</span>
+        <span>作者: {{ post_info.owner.username }}</span>
+    </div>
+
+    <li>
+        {% autoescape off %}
+        {{ post_info.content_html }}
+        {% endautoescape %}
+    </li>
+    {% endif %}
+</ul>
+{% comment_block request.path %}
+</div>
+{% endblock %}
+</body>
+</html>

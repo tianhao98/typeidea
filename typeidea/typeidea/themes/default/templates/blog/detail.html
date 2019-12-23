@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "./base.html" %}
+{% block title %} {{ post_info.title }} {% endblock %}
+{% block main %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>{{ post_info.owner }}</title>
+</head>
+<body>
+<ul>
+    {% if post_info %}
+    <div>
+        <span>分类: {{ post_info.category.name }}</span>
+        <span>作者: {{ post_info.owner.username }}</span>
+    </div>
+    <p>{{ post_info.desc }}</p>
+    <li>
+        {% endif %}
+    </li>
+</ul>
+{% endblock %}
+</body>
+</html>

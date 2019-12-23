@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "./newbase.html" %}
+
+<!--<head>-->
+    <!--<meta charset="UTF-8">-->
+    <!--<title>Title</title>-->
+    <!--<meta name="viewport", content="width=device-width initial-scale1.0">-->
+    <!--<link href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" media="screen">-->
+<!--</head>-->
+{% block title %}
+    {% if tag %}
+    标签页： {{ tag.name }}
+    {% elif category %}
+    分类页： {{ category.name }}
+    {% elif username %}
+    用户页 {{ username.username }}
+    {% else %}
+    首页
+    {% endif %}
+{% endblock %}
+<body>
+    {% block main %}
+        {% for post in post_list %}
+        <div class="row">
+            <div class="col-9 post-list">
+                <div class="card post">
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h5>
+                        <span class="card-link">作者:<a href="{% url 'user-list' post.owner.id %}">{{ post.owner.username }}</a></span>
+                        <span class="card-link">分类:<a href="{% url 'category-list' post.category.id %}">{{ post.category.name }}</a></span>
+                        <span class="card-link">标签:
+                            {% for tag in post.tag.all %}
+                            <a href="{% url 'tag-list' tag.id %}">{{ tag.name }}</a>
+                            {% endfor %}
+                        </span>
+                        <p class="card-text">{{ post.desc }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
+        {% endif %}
+
+        Page {{ page_obj.number }} of {{ paginator.num_pages }}
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">下一页</a>
+        {% endif %}
+    {% endblock %}
+</body>
+</html>
